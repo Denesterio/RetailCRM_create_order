@@ -14,7 +14,7 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::post('/orders', [OrderController::class, 'create'])->name('orders.create');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
 Route::get('/', function () {
     return view('welcome');

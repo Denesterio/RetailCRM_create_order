@@ -18,18 +18,6 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <!-- <title>Laravel</title> -->
-
-    <!-- Fonts -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"> -->
-
-    <!-- Styles -->
-    <!-- <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-        }
-    </style> -->
 </head>
 
 <body class="antialiased">
@@ -44,9 +32,17 @@
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
+                        @elseif (isset($status) && $status === 'failed')
+                        <div class="alert alert-danger" role="alert">
+                            {{ $message || $exception }}
+                        </div>
+                        @elseif (isset($status) && $status === 'success')
+                        <div class="alert alert-success" role="alert">
+                            Создан заказ №{{ $response->id }}
+                        </div>
                         @endif
 
-                        <form method="POST" action="{{ route('orders.create') }}">
+                        <form method="POST" action="{{ route('orders.store') }}">
                             @csrf
 
                             <div class="form-group row mb-3">
@@ -87,7 +83,7 @@
                                 </label>
 
                                 <div class="col-md-6">
-                                    <input id="itemName" type="text" class="form-control @error('item') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}">
+                                    <input id="itemName" type="text" class="form-control @error('itemName') is-invalid @enderror" name="itemName" value="{{ old('itemName') }}">
 
                                     @error('itemName')
                                     <span class="invalid-feedback" role="alert">

@@ -9,13 +9,14 @@ final class Api
     private const API_VERSION = 'api/v5/';
     private const TIMEOUT = 10;
 
+    /**
+     * Делает запрос к RetailCrm, ищет товар по переданным полям и возвращает массив продуктов
+     *
+     * @return array
+     * @throws Illuminate\Http\Client\RequestException
+     */
     public function fetchProductsBy(array $params)
     {
-        /**
-         * Делает запрос к RetailCrm и возвращает обработанный ответ
-         *
-         * @return Collect
-         */
         $preparedParams = [];
         foreach ($params as $param => $value) {
             $preparedParams["filter[{$param}]"] = $value;
@@ -26,8 +27,7 @@ final class Api
         $url = env('API_DOMAIN') . self::API_VERSION . 'store/products?' . $queryParams;
         $response = HTTP::timeout(self::TIMEOUT)->get($url);
         $response = $response->throw()->json();
-        if ($response['success']) {
-            return $response['products'];
-        }
+
+        return $response['products'];
     }
 }
